@@ -1,0 +1,89 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Обязательные мета-теги -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap, иконки и шрифт -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>   
+     <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+
+    {% if title %}
+        <title>Блог клуба {{ title }}</title>
+    {% else %}
+        <title>Блог клуба Python Bytes</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-blue fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'blog-home' %}"><i class='bx bxs-rocket bx-tada-hover'></i> Python Bytes</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link " href="{% url 'blog-home' %}">Главная</a>
+              <a class="nav-item nav-link" href="{% url 'blog-about' %}">О клубе</a>
+            </div>
+            <!-- Правая часть навигационной панели -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="{% url 'post-create' %}">Новая запись</a>
+                <a class="nav-item nav-link" href="{% url 'profile' %}">Профиль</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Разделы</h3>
+            <p class='text-muted'>новости и события
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">Новые записи</li>
+                <li class="list-group-item list-group-item-light">Объявления</li>
+                <li class="list-group-item list-group-item-light">Соревнования</li>
+                <li class="list-group-item list-group-item-light">Встречи участников</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+    <!-- Футер закреплен внизу, независимо от количества постов на странице -->
+    <footer class="text-center bg-dark">
+      <p><a href="{% url 'blog-home' %}">© Клуб Python Bytes 2022</a></p>
+    </footer>
+
+    <!-- Дополнительные скрипты JavaScript -->
+    <!-- Сначала jQuery, затем Popper.js, последним Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
